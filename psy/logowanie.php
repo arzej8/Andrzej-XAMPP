@@ -21,22 +21,41 @@
         Hasło: <input type="password" name='pass'><br>
         Powtórz hasło: <input type="password" name='passR'><br>
         <input type="submit" name='submit' value='Zapisz'>
-        </form>
+        </form><p>
         <?php
             $conn = new mysqli('localhost','root','','baza1');
-            $login = $_POST['login'];
-            $pass = sha1($_POST['pass']);
-            $passR = sha1($_POST['passR']);
-            if(empty($login) || empty($pass) || empty($passR)){
-                echo "<p> Uzupełnij wszystkie pola.";
+            
+
+            if(empty($_POST['login']) || empty($_POST['pass']) || empty($_POST['passR'])){
+                echo " Uzupełnij wszystkie pola.";
             }
-            else if($pass != $passR){
-                echo "<p>Hasła nie zgadzają się</p>";
+            else if($_POST['pass'] != $_POST['passR']){
+                echo "Hasła nie zgadzają się";
             }
+            else{
+                $login = $_POST['login'];
+                $pass = sha1($_POST['pass']);
+                $passR = sha1($_POST['passR']);
+                $sql = "SELECT login FROM uzytkownicy WHERE login like '$login'";
+                $result = $conn -> query($sql);
+                if($result -> num_rows > 0){
+                    echo "Login już występuje w bazie. nie dodano konta";
+                }
+                else{
+                    $password = sha1($pass);
+                    $sql2 = "INSERT INTO uzytkownicy (login, haslo) VALUES ('$login',$password');";
+                    if ($conn -> query($sql2)){
+                        echo "Konto zostało dodane.";
+                    }
+                }
+            }
+
+            
            
 
             $conn -> close();
         ?>
+        </p>
     </section>
     <section id='rightDown'>
         <h2>Zapraszamy wszytkich</h2>    
