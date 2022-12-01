@@ -27,8 +27,13 @@
             $login = $_POST['login'];
             $pass = sha1($_POST['pass']);
             $passR = sha1($_POST['passR']);
-
-            echo $login.', '.$pass.', '.$passR;
+            if(empty($login) || empty($pass) || empty($passR)){
+                echo "<p> Uzupełnij wszystkie pola.";
+            }
+            else if($pass != $passR){
+                echo "<p>Hasła nie zgadzają się</p>";
+            }
+           
 
             $conn -> close();
         ?>
