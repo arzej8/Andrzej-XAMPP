@@ -43,7 +43,7 @@
                 }
                 else{
                     $password = sha1($pass);
-                    $sql2 = "INSERT INTO uzytkownicy (login, haslo) VALUES ('$login',$password');";
+                    $sql2 = "INSERT INTO uzytkownicy (login,haslo) VALUES ('$login','$password');";
                     if ($conn -> query($sql2)){
                         echo "Konto zostało dodane.";
                     }
